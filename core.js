@@ -55,6 +55,9 @@ const URL_OPT_DONT_WALK = "nwalk";
 const URL_OPT_TO = "to";
 const URL_OPT_FROM = "from";
 
+
+var result_list = [];   // 検索結果保存用配列 (by wakakyu)
+
 function CreateMainForm(opt) {
     main_div.textContent = null;
     AddElement(main_div, "p", "[乗り換え案内]", "font-weight: bold;");
@@ -285,6 +288,8 @@ function InitGuide() { // Call From LastLine
 // core
 var flg_guide_gurd = false;
 async function PreGuideCore() {
+    result_list = [];   // 検索結果保存用配列 (by wakakyu)
+
     if (flg_guide_gurd) { return; }
     flg_guide_gurd = true;
     result_wait.textContent = null;
@@ -304,13 +309,15 @@ async function PreGuideCore() {
     result_wait.textContent = null;;
     flg_guide_gurd = false;
 }
-function GuideCore() {
+function GuideCore(from_st = null, to_st = null) {
     // init
     final_data = null; // mem free
-    let from_st = null;
-    let to_st = null;
+    // from_stとto_stを引数での指定に変更 (by wakakyu)
+    // let from_st = null;
+    // let to_st = null;
     let st_get_faild = false;
-    if (selector_from.selectedOptions[0] != undefined) {
+    if (from_st);   // from_stが指定されている場合何もしない (by wakakyu)
+    else if (selector_from.selectedOptions[0] != undefined) {
         from_st = selector_from.selectedOptions[0].text;
     } else {
         AddElement(result_area, "b", "Error : From を指定してください。");
@@ -318,7 +325,8 @@ function GuideCore() {
         st_get_faild = true;
     }
 
-    if (selector_to.selectedOptions[0] != undefined) {
+    if (to_st); // to_stが指定されている場合何もしない (by wakakyu)
+    else if (selector_to.selectedOptions[0] != undefined) {
         to_st = selector_to.selectedOptions[0].text;
     } else {
         AddElement(result_area, "b", "Error : To を指定してください。");
@@ -537,6 +545,8 @@ function ShowRootResults(start) {
                 }
             }
         } // for root
+
+        result_list.push(l_r_div.innerText);    // 検索結果保存用配列 (by wakakyu)
     }
 }
 
