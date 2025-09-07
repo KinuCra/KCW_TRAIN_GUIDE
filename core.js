@@ -1,4 +1,4 @@
-const g_Version = "0.30.1b";
+const g_Version = "0.30.1b-wk.2";
 
 const RESULT_GROUP = 10;
 const ROOT_LIMIT_RANGE = 15000;
@@ -130,6 +130,7 @@ function CreateMainForm(opt) {
     AddElement(main_div, "span", "version : " + g_Version);
     AddElement(main_div, "br");
     AddElement(main_div, "b", "powered by theta");
+    AddElement(main_div, "b", ", modified by wakakyu");
 }
 
 //set up
