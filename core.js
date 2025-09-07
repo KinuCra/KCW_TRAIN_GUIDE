@@ -316,7 +316,9 @@ function GuideCore(from_st = null, to_st = null) {
     // let from_st = null;
     // let to_st = null;
     let st_get_faild = false;
-    if (from_st);   // from_stが指定されている場合何もしない (by wakakyu)
+    if (from_st) {   // from_stが指定されている場合 (by wakakyu)
+        from_st = station_name_to_id.get(from_st) ? from_st : "高台";
+    }
     else if (selector_from.selectedOptions[0] != undefined) {
         from_st = selector_from.selectedOptions[0].text;
     } else {
@@ -325,7 +327,9 @@ function GuideCore(from_st = null, to_st = null) {
         st_get_faild = true;
     }
 
-    if (to_st); // to_stが指定されている場合何もしない (by wakakyu)
+    if (to_st) {     // to_stが指定されている場合 (by wakakyu)
+        to_st = station_name_to_id.get(to_st) ? to_st : "一村";
+    }
     else if (selector_to.selectedOptions[0] != undefined) {
         to_st = selector_to.selectedOptions[0].text;
     } else {
