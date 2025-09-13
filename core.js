@@ -185,7 +185,7 @@ function InitGuide() { // Call From LastLine
             let l_dirkey = Object.keys(trains[i].direct);
             trains[i].direct_station = new Set();
             for (let d = 0; d < l_dirkey.length; d++) {
-                trains[i].direct_station.add(station_name_to_id.get(trains[i].direct[l_dirkey[d]]));
+                trains[i].direct_station.add(station_name_to_id.get(trains[i].direct[l_dirkey[d]].station));
             }
         }
         if (trains[i].loop) { // id振り分け終了後
@@ -533,10 +533,11 @@ function ShowRootResults(start) {
                     } else if (l_root_trains[r] == WALK_CMD) {
                         CreateResult(l_r_div, l_pretrain_o, l_root_stations[r], "降車", WALK_CMD);
                     } else {
-                        if (!l_pretrain_o.direct || !l_pretrain_o.direct[l_train_o.name] || l_pretrain_o.direct[l_train_o.name] != station_id_to_name[l_root_stations[r]]) {
+                        if (!l_pretrain_o.direct || !l_pretrain_o.direct[l_train_o.name] || l_pretrain_o.direct[l_train_o.name].station != station_id_to_name[l_root_stations[r]]) {
                             CreateResult(l_r_div, l_pretrain_o, l_root_stations[r], "乗換", l_train_o);
                         } else {
-                            CreateResult(l_r_div, l_pretrain_o, l_root_stations[r], "直通", l_train_o);
+                            const opt = l_pretrain_o.direct[l_train_o.name].note ? ["直通", l_pretrain_o.direct[l_train_o.name].note] : "直通";
+                            CreateResult(l_r_div, l_pretrain_o, l_root_stations[r], opt, l_train_o);
                         }
                     }
                 }
@@ -597,7 +598,7 @@ function RootParser(root, data, cache = null, index = 0, pretrain = null, _inite
         if (pretrain != null && pretrain != l_train_inx) {
             if (pretrain != WALK_CMD && l_train_inx != WALK_CMD) {
                 const l_train_pre = trains[pretrain];
-                if (!l_train_pre.direct || !l_train_pre.direct[l_train.name] || l_train_pre.direct[l_train.name] != station_id_to_name[root[index]]) {
+                if (!l_train_pre.direct || !l_train_pre.direct[l_train.name] || l_train_pre.direct[l_train.name].station != station_id_to_name[root[index]]) {
                     l_change_vec = 1;
                 }
             } else {
@@ -635,7 +636,8 @@ function CreateResult(div, train, station_id, opt = null, subtrain = null) {
     // 情報を追加
     if (opt != null) {
         const opt_span = AddElement(l_par, "span", null, "display: inline-block;");
-        AddElement(opt_span, "span", "[" + opt + "]", "font-weight: bold; margin: 0 5px;");
+        opt = Array.isArray(opt) ? `[${opt[0]}] ※${opt[1]}` : `[${opt}]`;
+        AddElement(opt_span, "span", opt, "font-weight: bold; margin: 0 5px;");
         // 他の路線の情報を追加
         if (subtrain == WALK_CMD) {
             AddElement(opt_span, "span", "●徒歩\t");
