@@ -1,4 +1,4 @@
-const g_Version = "0.30.1b-wk.2";
+const g_Version = "0.31.0-wk";
 
 const RESULT_GROUP = 10;
 const ROOT_LIMIT_RANGE = 15000;
