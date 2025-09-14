@@ -636,8 +636,13 @@ function CreateResult(div, train, station_id, opt = null, subtrain = null) {
     // 情報を追加
     if (opt != null) {
         const opt_span = AddElement(l_par, "span", null, "display: inline-block;");
-        opt = Array.isArray(opt) ? `[${opt[0]}] ※${opt[1]}` : `[${opt}]`;
-        AddElement(opt_span, "span", opt, "font-weight: bold; margin: 0 5px;");
+        if (Array.isArray(opt)) {
+            AddElement(opt_span, "span", `[${opt[0]}]`, "font-weight: bold; margin: 0 5px;");
+            AddElement(opt_span, "span", `※${opt[1]}`, "color: #ee0000; font-weight: bold; margin-right: 5px;");
+        }
+        else {
+            AddElement(opt_span, "span", `[${opt}]`, "font-weight: bold; margin: 0 5px;");
+        }
         // 他の路線の情報を追加
         if (subtrain == WALK_CMD) {
             AddElement(opt_span, "span", "●徒歩\t");
