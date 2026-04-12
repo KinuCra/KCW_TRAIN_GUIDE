@@ -1563,7 +1563,7 @@ trains.push({
 });
 
 trains.push({
-  name: "春鉄快草線",
+  name: "春鉄伊吹線",
   id: "SI",
   color: "#8cc806",
   stations: [
